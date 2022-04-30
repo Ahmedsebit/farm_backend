@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 class Config(object):
     """Parent configuration class."""
     DEBUG = False
@@ -33,40 +32,32 @@ class Config(object):
     AWS_ACCESS_ID=os.getenv('AWS_ACCESS_ID')
     AWS_SECRET_KEY=os.getenv('AWS_SECRET_KEY')
     AWS_BUCKET_NAME=os.getenv('AWS_BUCKET_NAME')
+    AWS_BUCKET_FOLDER = os.getenv('AWS_BUCKET_FOLDER')
     SES_EMAIL_SOURCE = os.getenv('SES_EMAIL_SOURCE')
+    SES_EMAIL_SOURCE = os.getenv('SES_EMAIL_SOURCE')
+    SES_AWS_REGION_NAME= os.getenv('SES_AWS_REGION_NAME')
+
 
 class DevelopmentConfig(Config):
     """Configurations for Development."""
     DEBUG = True
-    AWS_BUCKET_FOLDER = os.getenv('AWS_BUCKET_FOLDER_DEV')
-    AWS_BUCKET_FILE_FOLDER = os.getenv('AWS_BUCKET_FILE_FOLDER_DEV')
-    SES_EMAIL_SOURCE = os.getenv('SES_EMAIL_SOURCE')
-    SES_AWS_REGION_NAME= os.getenv('SES_AWS_REGION_NAME')
 
 
 class TestingConfig(Config):
     """Configurations for Testing, with a separate test database."""
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI','postgresql://localhost/test_db')
     DEBUG = True
-    AWS_BUCKET_FOLDER = os.getenv('AWS_BUCKET_FOLDER_QA')
-    AWS_BUCKET_FILE_FOLDER = os.getenv('AWS_BUCKET_FILE_FOLDER_DEV')
 
 
 class StagingConfig(Config):
     """Configurations for Staging."""
     DEBUG = True
-    AWS_BUCKET_FOLDER = os.getenv('AWS_BUCKET_FOLDER_QA')
-    AWS_BUCKET_FILE_FOLDER = os.getenv('AWS_BUCKET_FILE_FOLDER_DEV')
-    LIA_BACKEND_URL = os.getenv('LIA_BACKEND_URL_STAGING')
 
 
 class ProductionConfig(Config):
     """Configurations for Production."""
     DEBUG = False
     TESTING = False
-    AWS_BUCKET_FOLDER = os.getenv('AWS_BUCKET_FOLDER_PROD')
-    AWS_BUCKET_FILE_FOLDER = os.getenv('AWS_BUCKET_FILE_FOLDER_DEV')
 
 
 app_config = dict(
