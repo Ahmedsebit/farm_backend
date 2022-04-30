@@ -47,7 +47,7 @@ class TestingConfig(Config):
     """Configurations for Testing, with a separate test database."""
     TESTING = True
     DEBUG = True
-
+    SQLALCHEMY_DATABASE_URI ="postgresql://myuser:mypass@localhost:5432/farm_test"
 
 class StagingConfig(Config):
     """Configurations for Staging."""

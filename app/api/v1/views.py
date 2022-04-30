@@ -2,7 +2,7 @@ import json
 from flask import Blueprint, request, jsonify
 from app.repositories.products import get_products, get_product, create_product
 from app.repositories.orders import create_order, get_order, get_user_orders
-from app.validators.fields_validators import validate_request
+from app.validators.fields_validators import validate_request, validate_product_fields, validate_order_fields
 from app.utils.uploads import upload_files
 
 
@@ -27,10 +27,18 @@ def get_product_api(id):
 def add_product_api():
     
     data = request.data
+    
+    validated_product_fields = validate_product_fields(data)
+    
+    if validated_product_fields:
+        response = jsonify({"message":f'Missing field {validated_product_fields}'})
+        response.status_code = 400
+        return response
+    
     validated_product_request = validate_request(data)
     
     if not validated_product_request[0]:
-        response = jsonify({"message":f'Missing or invalid field {validated_product_request[1]}'})
+        response = jsonify({"message":f'Invalid field {validated_product_request[1]}'})
         response.status_code = 400
         return response
     
@@ -60,10 +68,18 @@ def get_order_api(id):
 def add_order_api():
     
     data = request.data
+    
+    validated_order_fields = validate_order_fields(data)
+    
+    if validated_order_fields:
+        response = jsonify({"message":f'Missing field {validated_order_fields}'})
+        response.status_code = 400
+        return response
+    
     validated_order_request = validate_request(data)
     
     if not validated_order_request[0]:
-        response = jsonify({"message":f'Missing or invalid field {validated_order_request[1]}'})
+        response = jsonify({"message":f'Invalid field {validated_order_request[1]}'})
         response.status_code = 400
         return response
     

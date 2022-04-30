@@ -17,7 +17,7 @@ def validate_integer(integer):
     
     if integer is None:
         return False
-    if type(integer) != int:
+    if not integer.isdigit():
         return False
     return True  
     
