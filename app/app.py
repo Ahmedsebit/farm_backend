@@ -23,10 +23,10 @@ migrate = Migrate(db)
 
 
 ### swagger specific ###
-SWAGGER_URL = '/farm_backend/swagger'
+SWAGGER_URL = '/api/farm_backend/swagger'
 API_URL = '/static/swagger.json'
-URL_PREFIX = '/farm_backend/v1'
-URL_PREFIX_V2 = '/farm_backend/v2'
+URL_PREFIX = '/api/farm_backend/v1'
+URL_PREFIX_V2 = '/api/farm_backend/v2'
 SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
     SWAGGER_URL,
     API_URL,
