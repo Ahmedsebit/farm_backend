@@ -7,6 +7,37 @@ from app.validators.input_validators import (
     )
 
 
+def validate_product_fields(data):
+    
+    all_fields = ["description", "name", "price"]
+    fields = [key for key, value in data.items()]
+    missing_fields = None
+    
+    for i in all_fields:
+        if i not in fields:
+            if not missing_fields:
+                missing_fields = i
+            else:
+                f'{missing_fields} {i}'
+                
+    return missing_fields
+
+
+def validate_order_fields(data):
+    all_fields = ["product_id", "email", "phonenumber", "location", "building", "quantity"]
+    fields = [key for key, value in data.items()]
+    missing_fields = None
+    
+    for i in all_fields:
+        if i not in fields:
+            if not missing_fields:
+                missing_fields = i
+            else:
+                f'{missing_fields} {i}'
+                
+    return missing_fields
+
+
 def validate_request(fields):
     
     items = {
@@ -21,9 +52,9 @@ def validate_request(fields):
         "price": "integer",
     }
     
-    response = None
     for key, value in fields.items():
         
+        print(key, value, items[key])
         if items[key] == 'string':
             if validate_string(value) == False:
                 return False, key
@@ -37,4 +68,4 @@ def validate_request(fields):
             if validate_phone_number(value) == False:
                 return False, key
        
-    return True
+    return True, "OK"

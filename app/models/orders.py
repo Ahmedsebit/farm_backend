@@ -1,8 +1,4 @@
-import os
-import enum
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.dialects.postgresql.json import JSONB
 from app.app import db
 
 class Orders(db.Model):
