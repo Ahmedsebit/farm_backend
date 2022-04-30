@@ -23,6 +23,7 @@ logger = logging.getLogger('alembic.env')
 # target_metadata = mymodel.Base.metadata
 
 from app.models.products import Products
+from app.models.orders import Orders
 
 config.set_main_option(
     'sqlalchemy.url',

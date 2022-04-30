@@ -1,6 +1,7 @@
 import json
 from flask import Blueprint, request
 from app.repositories.products import get_products, get_product, create_product
+from app.repositories.orders import create_order, get_order, get_user_orders
 from app.utils.uploads import upload_files
 
 
@@ -11,13 +12,20 @@ farm_backend_v1_api_bp = Blueprint(
 
 @farm_backend_v1_api_bp.route('/products', methods=['GET'])
 def get_products_api():
+    
     return get_products()
+
+
+@farm_backend_v1_api_bp.route('/products/<int:id>', methods=['GET'])
+def get_product_api(id):
+    
+    return get_product(id)
 
 
 @farm_backend_v1_api_bp.route('/products', methods=['POST'])
 def add_product_api():
-    data = request.data
     
+    data = request.data
     file = data.get("file")
     file_url = upload_files(file) 
     return create_product(
@@ -27,6 +35,27 @@ def add_product_api():
                     data.get("price"),
                     )
 
-@farm_backend_v1_api_bp.route('/products/<int:id>', methods=['GET'])
-def get_product_api(id):
-    return get_product(id)
+
+@farm_backend_v1_api_bp.route('/orders/user/<string:email>', methods=['GET'])
+def get_user_orders_api(email):
+    
+    return get_user_orders(email)
+
+
+@farm_backend_v1_api_bp.route('/orders/<int:id>', methods=['GET'])
+def get_order_api(id):
+    
+    return get_order(id)
+
+
+@farm_backend_v1_api_bp.route('/orders', methods=['POST'])
+def add_order_api():
+    
+    data = request.data
+    product_id = data.get("product_id")
+    email = data.get("email")
+    phonenumber = data.get("phonenumber")
+    location = data.get("location")
+    building = data.get("building")
+    quantity = data.get("quantity")
+    return create_order(product_id, email, phonenumber, location, building, quantity)

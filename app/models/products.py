@@ -17,6 +17,8 @@ class Products(db.Model):
     price = db.Column(db.Float)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime)
+    orders = db.relationship(
+        'Orders', order_by='Orders.id', cascade="all, delete-orphan")
     
     def __init__(self, name, description, image_url, price):
         
