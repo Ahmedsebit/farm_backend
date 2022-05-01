@@ -42,7 +42,7 @@ def add_product_api():
         response.status_code = 400
         return response
     
-    file = data.get("file")
+    file = request.files.get("file")
     file_url = upload_files(file) 
     return create_product(
                     data.get("name"), 
