@@ -1,1 +1,1 @@
-web: gunicorn farm_service_service:app
+web: gunicorn farm_backend_service:app
