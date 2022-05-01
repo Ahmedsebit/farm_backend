@@ -76,14 +76,14 @@ def create_app(config_name):
     app.register_blueprint(api_v1.farm_backend_v1_api_bp, url_prefix=URL_PREFIX)
     app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 
-    @app.errorhandler(Exception)
-    def handle_error(e):
-        logger.error(f"Farm Manager - {type(e).__name__}: {str(e)}")
+    # @app.errorhandler(Exception)
+    # def handle_error(e):
+    #     logger.error(f"Farm Manager - {type(e).__name__}: {str(e)}")
 
-        if isinstance(e, ResponseError):
-            return jsonify(**e.__dict__), e.status
+    #     if isinstance(e, ResponseError):
+    #         return jsonify(**e.__dict__), e.status
 
-        return jsonify(dict(detail=f"{type(e).__name__}: {str(e)}")), 500
+    #     return jsonify(dict(detail=f"{type(e).__name__}: {str(e)}")), 500
     
     @app.teardown_request
     def teardown_request(exception):
