@@ -12,7 +12,9 @@ def upload_files(file):
     
     ts = str(datetime.utcnow())
     
-    filename = f'{ts}.pdf'
+    filename = file.filename
+    file_ext = filename.split(".")
+    filename = f'{filename}{ts}.{file_ext[1]}'
     
     s3_resource = boto3.resource(
                         's3',
