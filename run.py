@@ -1,5 +1,4 @@
 import os
-from waitress import serve
 from app.app import create_app
 
 config_name = os.getenv('APP_SETTINGS')
@@ -11,5 +10,4 @@ def lca_transport_management():
 
 if __name__ == '__main__':
     app.secret_key = "secret_key"
-    # app.run()
-    serve(app)
+    app.run()

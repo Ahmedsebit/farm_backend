@@ -10,6 +10,7 @@ from flask_migrate import Migrate
 from config import app_config
 from flask_swagger_ui import get_swaggerui_blueprint
 import os
+from flask_cors import CORS
 
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
@@ -46,6 +47,7 @@ def create_app(config_name):
     '''
     
     app = FlaskAPI(__name__, instance_relative_config=True)
+    CORS(app)
     app.config.from_object(app_config[config_name])
     
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
