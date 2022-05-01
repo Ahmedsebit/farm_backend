@@ -23,7 +23,7 @@ def upload_files(file):
                         aws_secret_access_key=current_app.config['AWS_SECRET_KEY']
                         )
 
-    response = s3_resource.Object(BUCKET_NAME, filename).put(Body=file, Key=f'{uploaded_folder}/{filename}')
+    response = s3_resource.Object(BUCKET_NAME, filename).put(Body=file.read(), Key=f'{uploaded_folder}/{filename}')
     
     if response:
         return filename
