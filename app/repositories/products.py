@@ -52,18 +52,14 @@ def structure_products(product):
     
 def create_product(name, description, image_url, price):
     
-    try:
-        new_product = Products(name, description, image_url, price)
-        db.session.add(new_product)
-        db.session.commit()
-        response = jsonify({"message":"created"})
-        response.status_code = 201
-        return response
-    except exc.SQLAlchemyError as e:
-        response = jsonify({"message":"Error occured, product hasnt been added"})
-        response.status_code = 201
-        return response
-    else:
-        response = jsonify({"message":"Error occured, product hasnt been added"})
-        response.status_code = 201
-        return response
+    # try:
+    new_product = Products(name, description, image_url, price)
+    db.session.add(new_product)
+    db.session.commit()
+    response = jsonify({"message":"created"})
+    response.status_code = 201
+    return response
+    # except exc.SQLAlchemyError as e:
+    #     response = jsonify({"message":"Error occured, product hasnt been added"})
+    #     response.status_code = 201
+    #     return response

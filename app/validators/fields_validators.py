@@ -54,7 +54,6 @@ def validate_request(fields):
     
     for key, value in fields.items():
         
-        print(key, value, items[key])
         if items[key] == 'string':
             if validate_string(value) == False:
                 return False, key
