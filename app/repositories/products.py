@@ -8,19 +8,19 @@ from app.models.products import Products
 def get_products():
 
     products = []
-    try:
-        products = Products.query.all()
-        if products:
-            products = list(map(structure_products, products))
-        else:
-            products = []
-        response = jsonify(products)
-        response.status_code = 200
-        return response
-    except exc.SQLAlchemyError as e:
-        response = jsonify([])
-        response.status_code = 200
-        return response
+    # try:
+    products = Products.query.all()
+    if products:
+        products = list(map(structure_products, products))
+    else:
+        products = []
+    response = jsonify(products)
+    response.status_code = 200
+    return response
+    # except exc.SQLAlchemyError as e:
+    #     response = jsonify([])
+    #     response.status_code = 200
+    #     return response
 
     
     
