@@ -12,7 +12,7 @@ class Config(object):
     
     database_user=os.getenv('DATABASE_USERNAME')
     database_password=os.getenv('DATABASE_PASSWORD')
-    database_url=os.getenv('DATABASE_URL')
+    database_url=os.getenv('DATABASE_POSTGRESS_URL')
     database_port=os.getenv('DATABASE_PORT')
     database_schema=os.getenv('DATABASE_SCHEMA')
     database_application_name = os.getenv('DATABASE_APPLICATION_NAME')
