@@ -1,0 +1,1 @@
+web: gunicorn farm_service_service:app
