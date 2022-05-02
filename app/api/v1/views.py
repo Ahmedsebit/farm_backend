@@ -68,9 +68,9 @@ def get_order_api(id):
 def add_order_api():
     
     data = request.data
-    
+    print(data, 1)
     validated_order_fields = validate_order_fields(data)
-    
+    print(data, 2)
     if validated_order_fields:
         response = jsonify({"message":f'Missing field {validated_order_fields}'})
         response.status_code = 400
