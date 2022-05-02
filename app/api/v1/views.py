@@ -1,5 +1,9 @@
 import json
 from flask import Blueprint, request, jsonify
+from app.repositories.products import get_products, get_product, create_product
+from app.repositories.orders import create_order, get_order, get_user_orders
+from app.validators.fields_validators import validate_request, validate_product_fields, validate_order_fields
+from app.utils.uploads import upload_files
 
 
 farm_backend_v1_api_bp = Blueprint(
@@ -7,9 +11,82 @@ farm_backend_v1_api_bp = Blueprint(
 )
 
 
-@farm_backend_v1_api_bp.route('/api/test', methods=['GET'])
-def test_api():
-    response = jsonify({"message": "OK"})
-    response.status_code = 200
-    return response
+@farm_backend_v1_api_bp.route('/products', methods=['GET'])
+def get_products_api():
+    
+    return get_products()
 
+
+@farm_backend_v1_api_bp.route('/products/<int:id>', methods=['GET'])
+def get_product_api(id):
+    
+    return get_product(id)
+
+
+@farm_backend_v1_api_bp.route('/products', methods=['POST'])
+def add_product_api():
+    
+    data = request.data
+    
+    validated_product_fields = validate_product_fields(data)
+    
+    if validated_product_fields:
+        response = jsonify({"message":f'Missing field {validated_product_fields}'})
+        response.status_code = 400
+        return response
+    
+    validated_product_request = validate_request(data)
+    
+    if not validated_product_request[0]:
+        response = jsonify({"message":f'Invalid field {validated_product_request[1]}'})
+        response.status_code = 400
+        return response
+    
+    file = request.files.get("file")
+    file_url = upload_files(file) 
+    return create_product(
+                    data.get("name"), 
+                    data.get("description"), 
+                    file_url, 
+                    data.get("price"),
+                    )
+
+
+@farm_backend_v1_api_bp.route('/orders/user/<string:email>', methods=['GET'])
+def get_user_orders_api(email):
+    
+    return get_user_orders(email)
+
+
+@farm_backend_v1_api_bp.route('/orders/<int:id>', methods=['GET'])
+def get_order_api(id):
+    
+    return get_order(id)
+
+
+@farm_backend_v1_api_bp.route('/orders', methods=['POST'])
+def add_order_api():
+    
+    data = request.data
+    print(data, 1)
+    validated_order_fields = validate_order_fields(data)
+    print(data, 2)
+    if validated_order_fields:
+        response = jsonify({"message":f'Missing field {validated_order_fields}'})
+        response.status_code = 400
+        return response
+    
+    validated_order_request = validate_request(data)
+    
+    if not validated_order_request[0]:
+        response = jsonify({"message":f'Invalid field {validated_order_request[1]}'})
+        response.status_code = 400
+        return response
+    
+    product_id = data.get("product_id")
+    email = data.get("email")
+    phonenumber = data.get("phonenumber")
+    location = data.get("location")
+    building = data.get("building")
+    quantity = data.get("quantity")
+    return create_order(product_id, email, phonenumber, location, building, quantity)

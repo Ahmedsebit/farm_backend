@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 class Config(object):
     """Parent configuration class."""
     DEBUG = False
@@ -13,7 +12,7 @@ class Config(object):
     
     database_user=os.getenv('DATABASE_USERNAME')
     database_password=os.getenv('DATABASE_PASSWORD')
-    database_url=os.getenv('DATABASE_URL')
+    database_url=os.getenv('DATABASE_POSTGRESS_URL')
     database_port=os.getenv('DATABASE_PORT')
     database_schema=os.getenv('DATABASE_SCHEMA')
     database_application_name = os.getenv('DATABASE_APPLICATION_NAME')
@@ -25,7 +24,8 @@ class Config(object):
     DATABASE_SCHEMA = os.getenv('DATABASE_SCHEMA')
     DATABASE_APPLICATION_NAME = os.getenv('DATABASE_APPLICATION_NAME')
     
-    SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@{}:{}/{}?application_name={}'.format(database_user,database_password,database_url,database_port,database_schema,database_application_name)
+    # SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@{}:{}/{}?application_name={}'.format(database_user,database_password,database_url,database_port,database_schema,database_application_name)
+    SQLALCHEMY_DATABASE_URI = database_url
     JSON_SORT_KEYS = False
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     
@@ -33,40 +33,32 @@ class Config(object):
     AWS_ACCESS_ID=os.getenv('AWS_ACCESS_ID')
     AWS_SECRET_KEY=os.getenv('AWS_SECRET_KEY')
     AWS_BUCKET_NAME=os.getenv('AWS_BUCKET_NAME')
+    AWS_BUCKET_FOLDER = os.getenv('AWS_BUCKET_FOLDER')
     SES_EMAIL_SOURCE = os.getenv('SES_EMAIL_SOURCE')
+    SES_EMAIL_SOURCE = os.getenv('SES_EMAIL_SOURCE')
+    SES_AWS_REGION_NAME= os.getenv('SES_AWS_REGION_NAME')
+
 
 class DevelopmentConfig(Config):
     """Configurations for Development."""
     DEBUG = True
-    AWS_BUCKET_FOLDER = os.getenv('AWS_BUCKET_FOLDER_DEV')
-    AWS_BUCKET_FILE_FOLDER = os.getenv('AWS_BUCKET_FILE_FOLDER_DEV')
-    SES_EMAIL_SOURCE = os.getenv('SES_EMAIL_SOURCE')
-    SES_AWS_REGION_NAME= os.getenv('SES_AWS_REGION_NAME')
 
 
 class TestingConfig(Config):
     """Configurations for Testing, with a separate test database."""
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI','postgresql://localhost/test_db')
     DEBUG = True
-    AWS_BUCKET_FOLDER = os.getenv('AWS_BUCKET_FOLDER_QA')
-    AWS_BUCKET_FILE_FOLDER = os.getenv('AWS_BUCKET_FILE_FOLDER_DEV')
-
+    SQLALCHEMY_DATABASE_URI ="postgresql://myuser:mypass@localhost:5432/farm_test"
 
 class StagingConfig(Config):
     """Configurations for Staging."""
     DEBUG = True
-    AWS_BUCKET_FOLDER = os.getenv('AWS_BUCKET_FOLDER_QA')
-    AWS_BUCKET_FILE_FOLDER = os.getenv('AWS_BUCKET_FILE_FOLDER_DEV')
-    LIA_BACKEND_URL = os.getenv('LIA_BACKEND_URL_STAGING')
 
 
 class ProductionConfig(Config):
     """Configurations for Production."""
     DEBUG = False
     TESTING = False
-    AWS_BUCKET_FOLDER = os.getenv('AWS_BUCKET_FOLDER_PROD')
-    AWS_BUCKET_FILE_FOLDER = os.getenv('AWS_BUCKET_FILE_FOLDER_DEV')
 
 
 app_config = dict(

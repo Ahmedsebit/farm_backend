@@ -10,6 +10,7 @@ from flask_migrate import Migrate
 from config import app_config
 from flask_swagger_ui import get_swaggerui_blueprint
 import os
+from flask_cors import CORS
 
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
@@ -23,10 +24,10 @@ migrate = Migrate(db)
 
 
 ### swagger specific ###
-SWAGGER_URL = '/farm_backend/swagger'
+SWAGGER_URL = '/api/farm_backend/swagger'
 API_URL = '/static/swagger.json'
-URL_PREFIX = '/farm_backend/v1'
-URL_PREFIX_V2 = '/farm_backend/v2'
+URL_PREFIX = '/api/farm_backend/v1'
+URL_PREFIX_V2 = '/api/farm_backend/v2'
 SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
     SWAGGER_URL,
     API_URL,
@@ -46,6 +47,7 @@ def create_app(config_name):
     '''
     
     app = FlaskAPI(__name__, instance_relative_config=True)
+    CORS(app)
     app.config.from_object(app_config[config_name])
     
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -78,7 +80,7 @@ def create_app(config_name):
 
     # @app.errorhandler(Exception)
     # def handle_error(e):
-    #     logger.error(f"Transporter Management - {type(e).__name__}: {str(e)}")
+    #     logger.error(f"Farm Manager - {type(e).__name__}: {str(e)}")
 
     #     if isinstance(e, ResponseError):
     #         return jsonify(**e.__dict__), e.status
