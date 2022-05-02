@@ -12,7 +12,9 @@ def upload_files(file):
     
     ts = str(datetime.utcnow())
     
-    filename = f'{ts}.pdf'
+    filename = file.filename
+    file_ext = filename.split(".")
+    filename = f'{filename}{ts}.{file_ext[1]}'
     
     s3_resource = boto3.resource(
                         's3',
@@ -21,7 +23,7 @@ def upload_files(file):
                         aws_secret_access_key=current_app.config['AWS_SECRET_KEY']
                         )
 
-    response = s3_resource.Object(BUCKET_NAME, filename).put(Body=io.BytesIO(file), Key=f'{uploaded_folder}/{filename}')
+    response = s3_resource.Object(BUCKET_NAME, filename).put(Body=file.read(), Key=f'{uploaded_folder}/{filename}')
     
     if response:
         return filename

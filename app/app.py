@@ -10,6 +10,7 @@ from flask_migrate import Migrate
 from config import app_config
 from flask_swagger_ui import get_swaggerui_blueprint
 import os
+from flask_cors import CORS
 
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
@@ -46,6 +47,7 @@ def create_app(config_name):
     '''
     
     app = FlaskAPI(__name__, instance_relative_config=True)
+    CORS(app)
     app.config.from_object(app_config[config_name])
     
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -76,14 +78,14 @@ def create_app(config_name):
     app.register_blueprint(api_v1.farm_backend_v1_api_bp, url_prefix=URL_PREFIX)
     app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 
-    @app.errorhandler(Exception)
-    def handle_error(e):
-        logger.error(f"Farm Manager - {type(e).__name__}: {str(e)}")
+    # @app.errorhandler(Exception)
+    # def handle_error(e):
+    #     logger.error(f"Farm Manager - {type(e).__name__}: {str(e)}")
 
-        if isinstance(e, ResponseError):
-            return jsonify(**e.__dict__), e.status
+    #     if isinstance(e, ResponseError):
+    #         return jsonify(**e.__dict__), e.status
 
-        return jsonify(dict(detail=f"{type(e).__name__}: {str(e)}")), 500
+    #     return jsonify(dict(detail=f"{type(e).__name__}: {str(e)}")), 500
     
     @app.teardown_request
     def teardown_request(exception):

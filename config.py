@@ -12,7 +12,7 @@ class Config(object):
     
     database_user=os.getenv('DATABASE_USERNAME')
     database_password=os.getenv('DATABASE_PASSWORD')
-    database_url=os.getenv('DATABASE_URL')
+    database_url=os.getenv('DATABASE_POSTGRESS_URL')
     database_port=os.getenv('DATABASE_PORT')
     database_schema=os.getenv('DATABASE_SCHEMA')
     database_application_name = os.getenv('DATABASE_APPLICATION_NAME')
@@ -24,7 +24,8 @@ class Config(object):
     DATABASE_SCHEMA = os.getenv('DATABASE_SCHEMA')
     DATABASE_APPLICATION_NAME = os.getenv('DATABASE_APPLICATION_NAME')
     
-    SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@{}:{}/{}?application_name={}'.format(database_user,database_password,database_url,database_port,database_schema,database_application_name)
+    # SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@{}:{}/{}?application_name={}'.format(database_user,database_password,database_url,database_port,database_schema,database_application_name)
+    SQLALCHEMY_DATABASE_URI = database_url
     JSON_SORT_KEYS = False
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     
